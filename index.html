@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Arial', sans-serif;
-            /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
+            background: transparent;
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -23,18 +23,14 @@
 
         .container {
             text-align: center;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
+            background: transparent;
             padding: 40px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.2);
             max-width: 600px;
             width: 90%;
         }
 
         h1 {
-            margin-bottom: 30px;
+            /* margin-bottom: 30px; */
             font-size: 2.5em;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
@@ -42,24 +38,28 @@
         .timer-display {
             font-size: 3.5em;
             font-weight: bold;
-            margin: 30px 0;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            /* margin: 30px 0; */
+            text-shadow: 2px 2px 4px #000, 0 0 2px #000;
             font-family: 'Courier New', monospace;
+            color: #39FF90;
+        }
+
+        .timer-number, .timer-label {
+            color: #39FF90 !important;
+            text-shadow: 2px 2px 4px #000, 0 0 2px #000;
         }
 
         .timer-unit {
             display: inline-block;
-            margin: 0 10px;
+            /* margin: 0 10px; */
             text-align: center;
         }
 
         .timer-number {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 10px 15px;
-            border-radius: 10px;
+            background: transparent;
+            /* padding: 10px 15px; */
             display: block;
             min-width: 80px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .timer-label {
@@ -71,20 +71,20 @@
         }
 
         .controls {
-            margin: 30px 0;
+            /* margin: 30px 0; */
         }
 
         .input-group {
-            margin: 15px 0;
+            /* margin: 15px 0; */
             display: flex;
-            gap: 10px;
+            /* gap: 10px; */
             justify-content: center;
             align-items: center;
             flex-wrap: wrap;
         }
 
         input[type="datetime-local"], input[type="number"] {
-            padding: 10px 15px;
+            /* padding: 10px 15px; */
             border: none;
             border-radius: 8px;
             background: rgba(255, 255, 255, 0.2);
@@ -106,13 +106,13 @@
             background: linear-gradient(45deg, #ff6b6b, #ee5a24);
             color: white;
             border: none;
-            padding: 12px 25px;
+            /* padding: 12px 25px; */
             border-radius: 25px;
             cursor: pointer;
             font-size: 16px;
             font-weight: bold;
             transition: all 0.3s ease;
-            margin: 5px;
+            /* margin: 5px; */
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
@@ -126,7 +126,7 @@
         }
 
         .status {
-            margin-top: 20px;
+            /* margin-top: 20px; */
             font-size: 1.2em;
             opacity: 0.8;
         }
@@ -146,19 +146,19 @@
         }
 
         .preset-buttons {
-            margin: 20px 0;
+            /* margin: 20px 0; */
         }
 
         .preset-btn {
             background: linear-gradient(45deg, #4ecdc4, #44a08d);
             margin: 5px;
-            padding: 8px 15px;
+            /* padding: 8px 15px; */
             font-size: 14px;
         }
 
         @media (max-width: 600px) {
             .container {
-                padding: 20px;
+                /* padding: 20px; */
             }
             
             .timer-display {
@@ -167,7 +167,7 @@
             
             .timer-number {
                 min-width: 60px;
-                padding: 8px 12px;
+                /* padding: 8px 12px; */
             }
             
             .input-group {
@@ -183,19 +183,19 @@
         <div class="timer-display" id="timerDisplay">
             <span class="timer-unit">
                 <span class="timer-number" id="days">00</span>
-                <span class="timer-label">Days</span>
+                <span class="timer-label">Дні</span>
             </span>
             <span class="timer-unit">
                 <span class="timer-number" id="hours">00</span>
-                <span class="timer-label">Hours</span>
+                <span class="timer-label">Годин</span>
             </span>
             <span class="timer-unit">
                 <span class="timer-number" id="minutes">00</span>
-                <span class="timer-label">Minutes</span>
+                <span class="timer-label">Хвилин</span>
             </span>
             <span class="timer-unit">
                 <span class="timer-number" id="seconds">00</span>
-                <span class="timer-label">Seconds</span>
+                <span class="timer-label">Секунди</span>
             </span>
         </div>
 
