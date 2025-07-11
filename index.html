@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBS Countdown Timer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 600px;
+            width: 90%;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .timer-display {
+            font-size: 3.5em;
+            font-weight: bold;
+            margin: 30px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            font-family: 'Courier New', monospace;
+        }
+
+        .timer-unit {
+            display: inline-block;
+            margin: 0 10px;
+            text-align: center;
+        }
+
+        .timer-number {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 15px;
+            border-radius: 10px;
+            display: block;
+            min-width: 80px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .timer-label {
+            font-size: 0.3em;
+            margin-top: 5px;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .controls {
+            margin: 30px 0;
+        }
+
+        .input-group {
+            margin: 15px 0;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        input[type="datetime-local"], input[type="number"] {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 16px;
+            backdrop-filter: blur(5px);
+        }
+
+        input[type="datetime-local"]::placeholder, input[type="number"]::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        input[type="number"] {
+            width: 80px;
+            text-align: center;
+        }
+
+        button {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin: 5px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .status {
+            margin-top: 20px;
+            font-size: 1.2em;
+            opacity: 0.8;
+        }
+
+        .expired {
+            color: #ff6b6b;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .preset-buttons {
+            margin: 20px 0;
+        }
+
+        .preset-btn {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            margin: 5px;
+            padding: 8px 15px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .timer-display {
+                font-size: 2.5em;
+            }
+            
+            .timer-number {
+                min-width: 60px;
+                padding: 8px 12px;
+            }
+            
+            .input-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⏰ OBS Elapsed Timer</h1>
+        
+        <div class="timer-display" id="timerDisplay">
+            <span class="timer-unit">
+                <span class="timer-number" id="days">00</span>
+                <span class="timer-label">Days</span>
+            </span>
+            <span class="timer-unit">
+                <span class="timer-number" id="hours">00</span>
+                <span class="timer-label">Hours</span>
+            </span>
+            <span class="timer-unit">
+                <span class="timer-number" id="minutes">00</span>
+                <span class="timer-label">Minutes</span>
+            </span>
+            <span class="timer-unit">
+                <span class="timer-number" id="seconds">00</span>
+                <span class="timer-label">Seconds</span>
+            </span>
+        </div>
+
+
+    </div>
+
+    <script>
+        let startTime = null;
+        let timerInterval = null;
+
+        function updateTimer() {
+            if (!startTime) return;
+
+            const now = new Date().getTime();
+            const elapsed = now - startTime;
+
+            const days = Math.floor(elapsed / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((elapsed % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((elapsed % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+
+
+        }
+
+
+
+        // Set hardcoded start time and auto-start timer
+        window.onload = function() {
+            // Set hardcoded start date/time - modify this to your desired start time
+            const hardcodedStartTime = new Date('2025-07-08T14:30:00'); // Example: January 1, 2024 at midnight
+            
+            // Auto-start the timer
+            startTime = hardcodedStartTime.getTime();
+            timerInterval = setInterval(updateTimer, 1000);
+            updateTimer();
+        };
+    </script>
+</body>
+</html>
