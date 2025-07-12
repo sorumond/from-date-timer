@@ -36,6 +36,8 @@
         }
 
         .timer-display {
+            display: flex;
+            justify-content: center;
             font-size: 3.5em;
             font-weight: bold;
             /* margin: 30px 0; */
@@ -50,9 +52,12 @@
         }
 
         .timer-unit {
-            display: inline-block;
-            /* margin: 0 10px; */
+            display: flex;
+            flex-direction: column;
+            /* display: inline-block; */
+            margin: 0 10px;
             text-align: center;
+            /* height: 60px; */
         }
 
         .timer-number {
@@ -64,7 +69,7 @@
 
         .timer-label {
             font-size: 0.3em;
-            margin-top: 5px;
+            margin-top: 0;
             opacity: 0.8;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -221,8 +226,6 @@
             document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
             document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
             document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
-
-
         }
 
 
